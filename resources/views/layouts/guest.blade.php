@@ -18,7 +18,9 @@
 
 <body class="font-sans text-gray-900 antialiased">
     <section>
-        {{ $header }}
+     @if (isset($header))
+          {{$header}}
+     @endif
     </section>
     <main>
 
