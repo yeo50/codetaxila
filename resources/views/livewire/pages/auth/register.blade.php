@@ -18,7 +18,7 @@ new #[Layout('layouts.guest')] class extends Component {
     // #[Validate('required')]
     public string $name = '';
 
-    #[Validate('required')]
+    #[Validate('required', as: 'First Name')]
     public string $fname = '';
 
     #[Validate('required', as: 'Last Name')]
@@ -52,11 +52,13 @@ new #[Layout('layouts.guest')] class extends Component {
         $student = ['fname' => $this->fname, 'lname' => $this->lname, 'email' => $this->email, 'dob' => $this->dob, 'phone'=>$this->phone, 'address'=>$this->address] ;
 
         $guardian = ['name'=> $this->guardian_name, 'email' => $this->guardian_email, 'phone'=>$this->guardian_phone];
-        DB::transaction(function () use ($guardian, $student, $validated) {
-            $newguardian = Guardian::create($guardian);
-            $student['guardian_id'] =$newguardian->id;
-            $newstudent = Student::create($student);
+        DB::transaction(function () use ( $validated, $student, $guardian) {
             $user = User::create($validated);
+            $student['user_id'] = $user->id;
+            $newstudent = Student::create($student);
+            $guardian['student_id']=$newstudent->id;
+            $newguardian = Guardian::create($guardian);
+
             Auth::login($user);
         });
         // event(new Registered(($user = User::create($validated))));

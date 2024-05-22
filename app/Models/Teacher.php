@@ -17,5 +17,6 @@ class Teacher extends Model
         'address',
         'status',
         'course_id',
+        'user_id'
     ];
 }

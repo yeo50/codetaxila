@@ -16,6 +16,6 @@ class Student extends Model
         'phone',
         'address',
         'status',
-        'guardian_id',
+        'user_id',
     ];
 }

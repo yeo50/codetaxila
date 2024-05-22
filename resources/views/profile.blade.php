@@ -12,6 +12,13 @@
                     <livewire:profile.update-profile-information-form />
                 </div>
             </div>
+            @if (Auth()->user()->usertype === 1)
+                <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                    <div class="max-w-xl">
+                        <livewire:profile.guardian_update />
+                    </div>
+                </div>
+            @endif
 
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                 <div class="max-w-xl">

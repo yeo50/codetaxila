@@ -1,23 +1,60 @@
 <?php
 
 use App\Models\User;
+use App\Models\Student;
+use App\Models\Teacher;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rule;
+use Livewire\Attributes\Validate;
 use Livewire\Volt\Component;
 
 new class extends Component
 {
-    public string $name = '';
+
     public string $email = '';
+
+     #[Validate('required', as: 'First Name')]
+    public string $fname = '';
+
+    #[Validate('required', as: 'Last Name')]
+    public string $lname = '';
+
+    public string $dob = '';
+    public string $phone = '';
+    public string $address = '';
+    public string $course_id = '';
+
+
 
     /**
      * Mount the component.
      */
     public function mount(): void
     {
-        $this->name = Auth::user()->name;
-        $this->email = Auth::user()->email;
+        $user = Auth::user();
+        $this->name = $user->name;
+        $this->email = $user->email;
+        if($user->usertype === 1) {
+        $student = Student::where('user_id', $user->id)->first();
+           if ($student) {
+            $this->fname = $student->fname;
+
+            $this->lname = $student->lname;
+            $this->dob = $student->dob;
+            $this->phone = $student->phone;
+            $this->address = $student->address;
+        }}
+            if($user->usertype === 2) {
+        $teacher = Teacher::where('user_id', $user->id)->first();
+           if ($teacher) {
+            $this->fname = $teacher->fname;
+            $this->lname = $teacher->lname;
+            $this->dob = $teacher->dob;
+            $this->phone = $teacher->phone;
+            $this->address = $teacher->address;
+            $this->course_id = $teacher->course_id;
+            }}
     }
 
     /**
@@ -25,12 +62,26 @@ new class extends Component
      */
     public function updateProfileInformation(): void
     {
-        $user = Auth::user();
+        $this->validate();
 
+        $user = Auth::user();
+        if($user->usertype === 1) {
+        $student =Student::where('user_id', $user->id)->first();
+        $updatestudent = ['fname'=>$this->fname, 'lname'=>$this->lname , 'email'=>$this->email, 'dob'=>$this->dob, 'phone'=>$this->phone, 'address'=>$this->address];
+        $student->fill($updatestudent);
+        $student->save();
+        }
+        if($user->usertype === 2) {
+        $teacher = Teacher::where('user_id', $user->id)->first();
+        $updateteacher = ['fname'=>$this->fname, 'lname'=>$this->lname , 'email'=>$this->email, 'dob'=>$this->dob, 'phone'=>$this->phone, 'address'=>$this->address, 'course_id'=>$this->course_id];
+        $teacher->fill($updateteacher);
+        $teacher->save();
+        }
         $validated = $this->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($user->id)],
+                   'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($user->id)],
         ]);
+
+        $validated['name'] = $this->fname . ' ' .$this->lname ;
 
         $user->fill($validated);
 
@@ -74,11 +125,42 @@ new class extends Component
     </header>
 
     <form wire:submit="updateProfileInformation" class="mt-6 space-y-6">
-        <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input wire:model="name" id="name" name="name" type="text" class="mt-1 block w-full" required autofocus autocomplete="name" />
-            <x-input-error class="mt-2" :messages="$errors->get('name')" />
+
+         <div>
+            <x-input-label for="fname" :value="__('First Name')" />
+            <x-text-input wire:model="fname" id="fname" name="fname" type="text" class="mt-1 block w-full"  autofocus autocomplete="fname" />
+             <x-input-error class="mt-2" :messages="$errors->get('fname')" />
         </div>
+        <div>
+            <x-input-label for="lname" :value="__('Last Name')" />
+            <x-text-input wire:model="lname" id="lname" name="lname" type="text" class="mt-1 block w-full"  autofocus autocomplete="lname" />
+             <x-input-error class="mt-2" :messages="$errors->get('lname')" />
+        </div>
+         <div>
+                <x-input-label for="dob" :value="__('Date of Birth')" />
+                <x-text-input wire:model="dob" id="dob" class="inline-block mt-1 w-4/5" type="date"
+                    name="dob" autocomplete="dob" />
+                <x-input-error :messages="$errors->get('dob')" class="mt-2" />
+            </div>
+
+            <div>
+                <x-input-label for="phone" :value="__('Phone')" />
+                <x-text-input wire:model="phone" id="phone" class="inline-block mt-1 w-4/5" type="text"
+                    name="phone" autocomplete="phone" />
+                <x-input-error :messages="$errors->get('phone')" class="mt-2" />
+            </div>
+            <div>
+                <x-input-label for="address" :value="__('address')" />
+                <x-text-input wire:model="address" id="address" class="inline-block mt-1 w-4/5" type="text"
+                    name="address" autocomplete="address" />
+                <x-input-error :messages="$errors->get('address')" class="mt-2" />
+            </div>
+            @if (Auth()->user()->usertype == 2)
+            <div>
+                <x-selection-label for="course" :value="__('Choose Course')" />
+               <x-selection wire:model="course_id" name="course" id="course" />
+            </div>
+            @endif
 
         <div>
             <x-input-label for="email" :value="__('Email')" />

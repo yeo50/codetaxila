@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->foreignId('course_id')->constraint();
             $table->boolean('status')->default(1);
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

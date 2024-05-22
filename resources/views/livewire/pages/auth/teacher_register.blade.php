@@ -40,15 +40,17 @@ new #[Layout('layouts.guest')] class extends Component
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
         ]);
-        $validated['usertype']=$this->usertype;
+
+        $validated['usertype']= $this->usertype;
         $validated['name'] = $this->fname . ' ' . $this->lname;
         $validated['password'] = Hash::make($validated['password']);
         $teacher = ['fname' => $this->fname, 'lname' => $this->lname, 'email' => $this->email, 'dob' => $this->dob, 'phone'=>$this->phone, 'address'=>$this->address, 'course_id'=>$this->course_id] ;
 
         DB::transaction(function () use ( $teacher, $validated) {
 
-            $newteacher = Teacher::create($teacher);
             $user = User::create($validated);
+            $teacher['user_id']= $user->id;
+            $newteacher = Teacher::create($teacher);
             Auth::login($user);
         });
         // event(new Registered(($user = User::create($validated))));
