@@ -8,9 +8,14 @@ use Illuminate\Validation\Rules;
 use Livewire\Attributes\Validate;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
+use Livewire\WithFileUploads;
 
-new #[Layout('layouts.guest')] class extends Component
- {
+new #[Layout('layouts.guest')] class extends Component {
+    use WithFileUploads;
+
+    #[Validate('image|max:11024')]
+    public $photo;
+
     public int $usertype = 2;
 
     // #[Validate('required')]
@@ -41,15 +46,18 @@ new #[Layout('layouts.guest')] class extends Component
             'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        $validated['usertype']= $this->usertype;
+        $validated['usertype'] = $this->usertype;
         $validated['name'] = $this->fname . ' ' . $this->lname;
+        $photoPath = $this->photo->store('photos', 'public');
+        $photoname = basename($photoPath);
+
+        $validated['photo'] = $photoname;
         $validated['password'] = Hash::make($validated['password']);
-        $teacher = ['fname' => $this->fname, 'lname' => $this->lname, 'email' => $this->email, 'dob' => $this->dob, 'phone'=>$this->phone, 'address'=>$this->address, 'course_id'=>$this->course_id] ;
+        $teacher = ['fname' => $this->fname, 'lname' => $this->lname, 'email' => $this->email, 'dob' => $this->dob, 'phone' => $this->phone, 'address' => $this->address, 'course_id' => $this->course_id];
 
-        DB::transaction(function () use ( $teacher, $validated) {
-
+        DB::transaction(function () use ($teacher, $validated) {
             $user = User::create($validated);
-            $teacher['user_id']= $user->id;
+            $teacher['user_id'] = $user->id;
             $newteacher = Teacher::create($teacher);
             Auth::login($user);
         });
@@ -76,34 +84,34 @@ new #[Layout('layouts.guest')] class extends Component
                     <span class="error">{{ $message }}</span>
                 @enderror
             </div>
-                  <!-- Email Address -->
-        <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input wire:model="email" id="email" class="inline-block mt-1 w-4/5" type="email"
-                name="email" placeholder="Enter Your Email" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
+            <!-- Email Address -->
+            <div class="mt-4">
+                <x-input-label for="email" :value="__('Email')" />
+                <x-text-input wire:model="email" id="email" class="inline-block mt-1 w-4/5" type="email"
+                    name="email" placeholder="Enter Your Email" required autocomplete="username" />
+                <x-input-error :messages="$errors->get('email')" class="mt-2" />
+            </div>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+            <!-- Password -->
+            <div class="mt-4">
+                <x-input-label for="password" :value="__('Password')" />
 
-            <x-text-input wire:model="password" id="password" class="inline-block mt-1 w-4/5" type="password"
-                name="password" placeholder="Enter Your Password" required autocomplete="new-password" />
+                <x-text-input wire:model="password" id="password" class="inline-block mt-1 w-4/5" type="password"
+                    name="password" placeholder="Enter Your Password" required autocomplete="new-password" />
 
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
+                <x-input-error :messages="$errors->get('password')" class="mt-2" />
+            </div>
 
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
+            <!-- Confirm Password -->
+            <div class="mt-4">
+                <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
 
-            <x-text-input wire:model="password_confirmation" id="password_confirmation" class="inline-block mt-1 w-4/5"
-                type="password" name="password_confirmation" placeholder="Confirm Your Password" required
-                autocomplete="new-password" />
+                <x-text-input wire:model="password_confirmation" id="password_confirmation"
+                    class="inline-block mt-1 w-4/5" type="password" name="password_confirmation"
+                    placeholder="Confirm Your Password" required autocomplete="new-password" />
 
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
+                <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+            </div>
 
             <div class="mt-4">
                 <x-input-label for="dob" :value="__('Date of Birth')" />
@@ -126,7 +134,15 @@ new #[Layout('layouts.guest')] class extends Component
             </div>
             <div class="mt-4">
                 <x-selection-label for="course" :value="__('Choose Course')" />
-               <x-selection wire:model="course_id" name="course" id="course" />
+                <x-selection wire:model="course_id" name="course" id="course" />
+            </div>
+            <div class="mt-4 space-y-3">
+                <label for="photo" class="text-gray-700 font-medium">Upload Photo</label> <br>
+                <input type="file" wire:model="photo" id="photo" class="border-gray-300 "> <br>
+                @error('photo')
+                    <span class="error">{{ $message }}</span>
+                @enderror
+
             </div>
         </div>
 

@@ -3,12 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+    public function dashboard()
+    {
+        $format_date = Carbon::parse(now())->isoFormat('MMM D, YYYY');
+
+        return view('dashboard', ['date' => $format_date]);
+    }
     public function index()
     {
         //

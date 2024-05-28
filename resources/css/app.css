@@ -8,4 +8,7 @@
         background-clip: text;
         -webkit-text-fill-color: transparent;
     }
+    .side-active {
+        @apply text-white underline decoration-2 underline-offset-2;
+    }
 }

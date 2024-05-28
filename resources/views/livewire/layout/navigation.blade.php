@@ -17,8 +17,7 @@ new class extends Component {
     }
 }; ?>
 
-<nav x-data="{ open: false }"
-    class="bg-white border-b box-border border-gray-100 w-[83%] ms-auto relative top-4 rounded-xl">
+<nav x-data="{ open: false }" class="bg-white border-b box-border border-gray-100  rounded-xl">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
         <div class="flex justify-between h-16">
