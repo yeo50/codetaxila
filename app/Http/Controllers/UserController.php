@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -13,8 +14,8 @@ class UserController extends Controller
     public function dashboard()
     {
         $format_date = Carbon::parse(now())->isoFormat('MMM D, YYYY');
-
-        return view('dashboard', ['date' => $format_date]);
+        $userTeachers = User::where('usertype', 2)->take(4)->get();
+        return view('dashboard', ['date' => $format_date, 'teachers' => $userTeachers]);
     }
     public function index()
     {

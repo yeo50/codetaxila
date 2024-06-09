@@ -17,17 +17,25 @@
 </head>
 
 <body class="font-sans antialiased  bg-gray-100">
-    <div class="min-h-screen flex">
-        <div class="flex-0 min-w-48 bg-white max-sm:hidden ">
+    <div class="min-h-screen md:flex max-md:relative" x-data="{ sideOpen: false }">
+        <div class="max-md:absolute top-20 left-1 right-1 md:flex-0 md:min-w-48  md:block"
+            :class="{ 'block': sideOpen, 'hidden': !sideOpen }">
 
-            <livewire:layout.side-navigation />
+            <livewire:layout.side-navigation :active="$label ?? ''" />
         </div>
         <div class="flex-1 bg-white space-y-4 pt-4 px-4 pe-4">
             <div class="w-full flex justify-between   ">
+                <span class="md:hidden" @click="sideOpen = !sideOpen"><svg xmlns="http://www.w3.org/2000/svg"
+                        fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M3.75 6.75h16.5M3.75 12H12m-8.25 5.25h16.5" />
+                    </svg>
+                </span>
                 <input type="search" placeholder="Search"
                     class="h-10 border-slate-300 rounded-xl shadow-xl ps-3 w-[30%] focus:shadow-lg focus:shadow-indigo-500">
                 <a class="avatar flex items-center gap-1 px-2 " href="{{ route('profile') }}">
-                    <img src="{{ asset('./storage/photos/' . Auth()->user()->photo) }}" alt="avatar"
+                    <img src="{{ Auth::user()->photo ? asset('./storage/photos/' . Auth()->user()->photo) : asset('./storage/photos/ZrMsWtZunO6zI1VonwyYigMv0d8u2UmmZwW6QZ36.jpg') }}"
+                        alt="avatar"
                         class="w-12 h-12 rounded-full object-contain border-2 border-violet-700 shadow-lg">
                     <div>
                         <h4>{{ explode(' ', Auth()->user()->name)[0] }}</h4>
@@ -43,24 +51,12 @@
                 @if (isset($header))
                     <header
                         class="bg-gradient-to-r from-indigo-500 to-violet-600 rounded-xl shadow-2xl flex flex-wrap-reverse justify-between">
-                        <div
-                            class="max-w-7xl mx-auto lg:h-44 py-6 px-4 sm:px-6 lg:px-8 flex-1 flex flex-col gap-6  text-slate-100">
-                            <span>
-                                {{ $header }}
-                            </span>
-                            <div>
-                                <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold mb-2">Welcome back,
-                                    <span>{{ explode(' ', Auth()->user()->name)[0] }}</span>
-                                </h3>
-                                <p>Checkout latest info & events here </p>
-                            </div>
-                        </div>
-                        <div class="flex-1"></div>
+                        {{ $header }}
                     </header>
                 @endif
             @endif
             <!-- Page Content -->
-            <main class="  h-[1500px] w-full ">
+            <main class="h-[1500px] m-0 ">
                 {{ $slot }}
             </main>
         </div>
