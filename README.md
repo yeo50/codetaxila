@@ -7,3 +7,6 @@ Assignment
          dispatch event if change in select using alpine x-on:change="event" and pass the data
          listen event in livewire component and change accordingly
 
+       -make model exercise 
+        show exercises list 
+        -show individual exercise when click 

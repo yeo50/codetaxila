@@ -20,6 +20,7 @@ class ExerciseFactory extends Factory
             'title' => fake()->words(3, true),
             'description' => fake()->sentence(4),
             'content' => fake()->sentence(4),
+            'value' => fake()->word(),
             'assignment_id' => 1
         ];
     }
