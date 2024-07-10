@@ -22,6 +22,7 @@
             :class="{ 'block': sideOpen, 'hidden': !sideOpen }">
 
             <livewire:layout.side-navigation :active="$label ?? ''" />
+
         </div>
         <div class="flex-1 bg-white space-y-4 pt-4 px-4 pe-4">
             <div class="w-full flex justify-between   ">
@@ -39,14 +40,16 @@
                         class="w-12 h-12 rounded-full object-contain border-2 border-violet-700 shadow-lg">
                     <div>
                         <h4>{{ explode(' ', Auth()->user()->name)[0] }}</h4>
-                        <span class="text-slate-400">3rd year</span>
+                        @if (isset($student_year))
+                            <span class="text-slate-400">{{ $student_year }}</span>
+                        @endif
                     </div>
                 </a>
             </div>
-            {{-- <livewire:layout.navigation :mtitle="$mtitle" /> --}}
+
 
             <!-- Page Heading -->
-            @if (request()->routeIs('dashboard'))
+            @if (request()->routeIs('dashboard') || request()->routeIs('teacherdashboard'))
 
                 @if (isset($header))
                     <header
@@ -56,7 +59,7 @@
                 @endif
             @endif
             <!-- Page Content -->
-            <main class="h-[1500px] m-0 ">
+            <main class=" m-0 ">
                 {{ $slot }}
             </main>
         </div>

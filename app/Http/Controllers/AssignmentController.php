@@ -22,7 +22,8 @@ class AssignmentController extends Controller
      */
     public function create()
     {
-        //
+        $assignments = Assignment::all();
+        return view('teacher.assignment', ['assignments' => $assignments]);
     }
 
     /**
@@ -46,7 +47,7 @@ class AssignmentController extends Controller
      */
     public function edit(Assignment $assignment)
     {
-        //
+        return view('teacher.assignment_edit', ['assignment' => $assignment]);
     }
 
     /**
@@ -54,7 +55,11 @@ class AssignmentController extends Controller
      */
     public function update(UpdateAssignmentRequest $request, Assignment $assignment)
     {
-        //
+        $new = $request->all();
+        $res = $assignment->update($new);
+        if ($res) {
+            return redirect()->route('assignments.create');
+        }
     }
 
     /**
@@ -62,6 +67,7 @@ class AssignmentController extends Controller
      */
     public function destroy(Assignment $assignment)
     {
-        //
+        $assignment->delete();
+        return redirect()->back();
     }
 }

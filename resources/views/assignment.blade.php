@@ -30,10 +30,7 @@
         </div>
         <div class="p-4  mt-4 ">
             <div x-show="tab === 'front-end'" class="space-y-4">
-
                 <livewire:assignments.frontend />
-
-
             </div>
             <div x-show="tab === 'back-end'">
                 backend

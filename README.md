@@ -10,3 +10,7 @@ Assignment
        -make model exercise 
         show exercises list 
         -show individual exercise when click 
+  second- click exercise and show exercise 
+        - practice exercise 
+       - live update when exercise correct or not 
+       -show status when all exercises are finished

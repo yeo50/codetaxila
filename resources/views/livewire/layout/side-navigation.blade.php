@@ -22,17 +22,20 @@ new class extends Component {
 }; ?>
 <div
     class="md:fixed top-4 left-0   md:w-44 h-[500px] bg-gradient-to-br from-indigo-400 to-violet-600 flex flex-col items-center  rounded-xl shadow-xl">
-    <a href="{{ route('dashboard') }}" wire:navigate class="p-4 bg-violet-900 block mt-6 w-[70%] mx-auto rounded-xl">
+    <a href="{{ Auth()->user()->usertype == 1 ? route('dashboard') : route('teacherdashboard') }} " wire:navigate
+        class="p-4 bg-violet-900 block mt-6 w-[70%] mx-auto rounded-xl">
         <x-application-logo class="block h-16 mx-auto  w-auto fill-current text-slate-200" />
     </a>
 
     <ul class="flex flex-col mt-4 items-center space-y-4 text-center font-bold text-lg text-slate-300 ">
         <li class="cursor-pointer {{ $active === 'dashboard' ? 'side-active' : '' }}  ">
-            <a wire:navigate href="{{ route('dashboard') }}" class="hover:text-white"><i
-                    class="fa-solid fa-chalkboard me-1 "></i>Dashboard</a>
+            <a wire:navigate href="{{ Auth()->user()->usertype == 1 ? route('dashboard') : route('teacherdashboard') }}"
+                class="hover:text-white"><i class="fa-solid fa-chalkboard me-1 "></i>Dashboard</a>
         </li>
         <li class=" cursor-pointer {{ $active === 'assignment' ? 'side-active' : '' }}">
-            <a wire:navigate href="{{ route('assignments.index') }}" class="flex gap-1 hover:text-white">
+            <a wire:navigate
+                href="{{ Auth()->user()->usertype == 1 ? route('assignments.index') : route('assignments.create') }}"
+                class="flex gap-1 hover:text-white">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="h-6 w-6">
                     <path stroke-linecap="round" stroke-linejoin="round"

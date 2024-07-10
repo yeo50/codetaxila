@@ -5,12 +5,18 @@ namespace App\Http\Controllers;
 use App\Models\Teacher;
 use App\Http\Requests\StoreTeacherRequest;
 use App\Http\Requests\UpdateTeacherRequest;
+use Carbon\Carbon;
 
 class TeacherController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+    public function dashboard()
+    {
+        $format_date = Carbon::parse(now())->isoFormat('MMM D, YYYY');
+        return view('teacher.dashboard', ['date' => $format_date]);
+    }
     public function index()
     {
         //

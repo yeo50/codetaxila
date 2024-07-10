@@ -5,6 +5,9 @@
     <x-slot:label>
         dashboard
     </x-slot>
+    <x-slot:studet_year>
+        3rd year
+    </x-slot>
 
     <x-slot:header>
         <div class="max-w-7xl mx-auto lg:h-44 py-6 px-4 sm:px-6 lg:px-8 flex-1 flex flex-col gap-6  text-slate-100">

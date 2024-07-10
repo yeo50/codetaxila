@@ -63,7 +63,7 @@ new #[Layout('layouts.guest')] class extends Component {
         });
         // event(new Registered(($user = User::create($validated))));
 
-        $this->redirect(route('dashboard', absolute: false), navigate: true);
+        $this->redirect(route('teacherdashboard', absolute: false), navigate: true);
     }
 }; ?>
 
