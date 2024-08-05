@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Exercise;
-use App\Http\Requests\StoreExerciseRequest;
-use App\Http\Requests\UpdateExerciseRequest;
+use App\Http\Requests\ExerciseRequest\StoreExerciseRequest;
+use App\Http\Requests\ExerciseRequest\UpdateExerciseRequest;
 
 class ExerciseController extends Controller
 {

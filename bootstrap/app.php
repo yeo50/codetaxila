@@ -2,6 +2,10 @@
 
 use App\Http\Middleware\EnsureRole;
 use App\Http\Middleware\EnsureStudent;
+use App\Http\Middleware\SeverTimingMiddleware;
+use App\Http\Middleware\Student;
+use App\Http\Middleware\Teacher;
+use App\Http\Middleware\UserType;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -15,7 +19,10 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
             'role' => EnsureRole::class,
-            'student' => EnsureStudent::class,
+
+            'usertype' => UserType::class,
+            'teacher' => Teacher::class,
+            'student' => Student::class,
 
         ]);
     })

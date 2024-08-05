@@ -18,4 +18,16 @@ class Student extends Model
         'status',
         'user_id',
     ];
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+    public function enroll()
+    {
+        return $this->hasMany(Enroll::class);
+    }
+    public function progres()
+    {
+        return $this->hasMany(Progress::class);
+    }
 }

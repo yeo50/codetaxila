@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Teacher;
-use App\Http\Requests\StoreTeacherRequest;
-use App\Http\Requests\UpdateTeacherRequest;
+use App\Http\Requests\TeacherRequest\StoreTeacherRequest;
+use App\Http\Requests\TeacherRequest\UpdateTeacherRequest;
 use Carbon\Carbon;
 
 class TeacherController extends Controller

@@ -16,6 +16,7 @@
                     <span>{{ explode(' ', Auth()->user()->name)[0] }}</span>
                 </h3>
                 <p>Checkout latest info & events here </p>
+
             </div>
         </div>
         <div class="flex-1  flex justify-center">

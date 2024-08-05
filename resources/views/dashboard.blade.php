@@ -5,7 +5,7 @@
     <x-slot:label>
         dashboard
     </x-slot>
-    <x-slot:studet_year>
+    <x-slot:student_year>
         3rd year
     </x-slot>
 
@@ -65,40 +65,100 @@
 
                 </div>
             </div>
-            <h3 class="text-2xl font-bold my-6">Enrolled Courses</h3>
+
+
+
+
+            @if (Auth()->user()->student->enroll->count() > 0)
+                <h3 class="text-2xl font-bold my-6">Keep Learning</h3>
+
+                <div class="flex  gap-4 max-lg:flex-col max-lg:space-y-4 w-full h-auto">
+                    @foreach (Auth()->user()->student->enroll->pluck('course')->unique() as $item)
+                        <div class=" flex-1 border border-black rounded-lg">
+                            @php
+                                $progress_bar = (int) Auth()->user()->student->progres->pluck('value')->implode('');
+
+                            @endphp
+
+                            <div class="flex rounded-lg ">
+                                <div class="min-w-10 bg-yellow-500 h-8 rounded-tl-lg flex justify-center items-center"
+                                    style="width: {{ $progress_bar }}%">
+                                    {{ $progress_bar }} %</div>
+                                <div class="flex-1 bg-slate-400 w-full rounded-tr-lg"></div>
+                            </div>
+                            <div class="py-6 px-4 space-y-2">
+                                <h6>Course</h6>
+                                <h2 class="text-lg font-medium capitalize">{{ $item }} Development</h2>
+                                @if ($item == 'frontend')
+                                    <p class="text-gray-600">Learn how to built powerful website
+                                        with HTML, CSS, JavaScript.</p>
+                                @elseif($item == 'backend')
+                                    <p class="text-gray-600">Learn deep understanding of how websites in the background
+                                        with PHP, MySQL</p>
+                                @endif
+
+                            </div>
+                            <div class="flex border-t border-black ">
+                                <button class="flex-1 flex justify-center items-center font-semibold">View
+                                    Topic</button>
+                                <a href="{{ route("courses.$item") }}"
+                                    class="flex-1 flex justify-center bg-violet-700 h-12 items-center text-white font-semibold">
+
+                                    Resume
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor"
+                                        class="h-6 w-6 bg-white text-violet-950 rounded-full ms-1">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
+                                    </svg>
+
+
+                                </a>
+                            </div>
+                        </div>
+                    @endforeach
+
+                </div>
+            @endif
+            <h3 class="text-2xl font-bold my-6">Start Enroll Our Courses</h3>
 
             <div class="flex  gap-4 max-lg:flex-col max-lg:space-y-4 w-full h-auto">
-                <div
+
+                <a href="{{ route('enrollment', ['course_name' => 'frontend']) }}"
                     class="flex-1 flex max-sm:flex-col-reverse p-4 shadow-xl rounded-xl min-h-60 border-2 hover:border-violet-800">
                     <div class=" flex-1 flex items-center ">
                         <div class="space-y-3">
                             <h6 class="text-lg font-medium">Front End Development</h6>
                             <p class="text-gray-600">Lorem ipsum dolor sit amet celit. Nulla cum
                                 placeat harum.</p>
-                            <x-primary-button class="max-sm:block max-sm:w-20 max-sm:mx-auto ">view</x-primary-button>
+                            <x-primary-button class="max-sm:block max-sm:w-20 max-sm:mx-auto ">Enroll</x-primary-button>
                         </div>
                     </div>
                     <div class=" flex-1 flex items-center justify-center max-sm:max-h-[230px]">
                         <img src="{{ asset('images/frontend.png') }}" alt="frontend"
                             class="object-contain   max-w-full max-h-full">
                     </div>
-                </div>
-                <div
+                </a>
+
+
+                <a href="{{ route('enrollment', ['course_name' => 'backend']) }}"
                     class="flex-1 flex max-sm:flex-col-reverse p-4 shadow-xl rounded-xl min-h-60 border-2 hover:border-violet-800">
                     <div class=" flex-1 flex items-center">
                         <div class="space-y-3">
                             <h6 class="text-lg font-medium">Back End Development</h6>
                             <p class="text-gray-600">Lorem ipsum dolor sit amet celit. Nulla cum
                                 placeat harum.</p>
-                            <x-primary-button class="max-sm:block max-sm:w-20 max-sm:mx-auto ">view</x-primary-button>
+                            <x-primary-button class="max-sm:block max-sm:w-20 max-sm:mx-auto ">Enroll</x-primary-button>
                         </div>
                     </div>
                     <div class=" flex-1 flex items-center justify-center max-sm:max-h-[230px]">
                         <img src="{{ asset('images/backend.png') }}" alt="png image from pngtree.com"
                             class="object-contain   max-w-full max-h-full">
                     </div>
-                </div>
+                </a>
+
             </div>
+
         </section>
 
         <section class="shrink-0 md:w-44 lg:w-64 space-y-4 md:min-h-[450px]">

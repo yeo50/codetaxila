@@ -37,7 +37,7 @@ class User extends Authenticatable
     ];
     public function student()
     {
-        return $this->belongsTo(Student::class);
+        return $this->hasOne(Student::class);
     }
     /**
      * Get the attributes that should be cast.

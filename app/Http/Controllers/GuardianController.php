@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Guardian;
-use App\Http\Requests\StoreGuardianRequest;
-use App\Http\Requests\UpdateGuardianRequest;
+use App\Http\Requests\GuardianRequest\StoreGuardianRequest;
+use App\Http\Requests\GuardianRequest\UpdateGuardianRequest;
 
 class GuardianController extends Controller
 {

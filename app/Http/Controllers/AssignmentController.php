@@ -3,18 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Models\Assignment;
-use App\Http\Requests\StoreAssignmentRequest;
-use App\Http\Requests\UpdateAssignmentRequest;
+use App\Http\Requests\AssignmentRequest\StoreAssignmentRequest;
+use App\Http\Requests\AssignmentRequest\UpdateAssignmentRequest;
 
 class AssignmentController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function doAssignment()
     {
         $assignments = Assignment::all();
         return view('assignment', ['assignments' => $assignments]);
+    }
+    public function index()
+    {
+        $assignments = Assignment::all();
+        // return view('assignment', ['assignments' => $assignments]);
     }
 
     /**
