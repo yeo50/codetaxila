@@ -5,25 +5,36 @@ namespace App\Http\Controllers;
 use App\Models\Grade;
 use App\Http\Requests\GradeRequest\StoreGradeRequest;
 use App\Http\Requests\GradeRequest\UpdateGradeRequest;
+use App\Models\Student;
+use Illuminate\Http\Request;
 
 class GradeController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+    public function intro()
+    {
+
+
+        return view('grades');
+    }
     public function index()
     {
 
         $grades = Grade::all();
-        return view('grades', ['grades' => $grades]);
+        $students = Student::all();
+        return view('teacher.grades.grades_index', ['grades' => $grades, 'students' => $students]);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('livewire.grades.grades_create');
+        $student_id = $request->id;
+        $grades = Grade::where('student_id', $student_id)->get();
+        return redirect()->route('gradesInsert', ['student_id' => $student_id]);
     }
 
     /**

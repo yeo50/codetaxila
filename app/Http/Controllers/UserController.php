@@ -19,7 +19,8 @@ class UserController extends Controller
     }
     public function index()
     {
-        //
+        $users = User::all();
+        return view('users', ['users' => $users]);
     }
 
     /**
@@ -65,8 +66,9 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(User $user)
     {
-        //
+        $user->delete();
+        return redirect()->back()->with('message', 'User Delete Success');
     }
 }

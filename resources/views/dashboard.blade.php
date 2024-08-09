@@ -76,7 +76,7 @@
                     @foreach (Auth()->user()->student->enroll->pluck('course')->unique() as $item)
                         <div class=" flex-1 border border-black rounded-lg">
                             @php
-                                $progress_bar = (int) Auth()->user()->student->progres->pluck('value')->implode('');
+                                $progress_bar = (int) Auth()->user()->student->progress->pluck('value')->implode('');
 
                             @endphp
 

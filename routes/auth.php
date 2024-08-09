@@ -10,7 +10,7 @@ Route::middleware('guest')->group(function () {
         ->name('register');
     Volt::route('teacher_register', 'pages.auth.teacher_register')
         ->name('teacher_register');
-    Volt::route('login', 'pages.auth.login')
+    Volt::route('/', 'pages.auth.login')
         ->name('login');
 
     Volt::route('forgot-password', 'pages.auth.forgot-password')
@@ -32,4 +32,5 @@ Route::middleware('auth')->group(function () {
         ->name('password.confirm');
     Volt::route('/learn-html-topic', 'courses.learn-html-topic')->name('learnHtmlTopic');
     Volt::route('/enrollment', 'enrollment.enroll')->name('enrollment');
+    Volt::route('/grades-insert', 'grades.grades_create')->name('gradesInsert');
 });

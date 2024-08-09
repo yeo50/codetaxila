@@ -7,26 +7,8 @@
         3rd year
     </x-slot>
 
-    @if (session('message'))
-        <p>{{ session('message') }} this is</p>
-    @endif
-    @foreach ($grades as $grade)
-        <div class="flex justify-between">
-            <div>
-                <h1>{{ $grade->subject }}</h1>
-                <p>{{ $grade->value }}</p>
-            </div>
-            <div> <a href="{{ route('grades.edit', $grade->id) }}" class="font-semibold text-lg">Edit</a>
-                <form action="{{ route('grades.destroy', $grade->id) }}" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <input type="submit" value="Delete" class="p-4 bg-red-500">
-                </form>
-            </div>
-        </div>
-    @endforeach
 
-    <a href="{{ route('grades.create') }}" class="text-xl text-cyan-600">Create Grades</a>
+
 
 
     <h1 class="font-semibold text-lg">Your Grading in Frontend Courses</h1>

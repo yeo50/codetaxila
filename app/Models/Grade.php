@@ -13,4 +13,8 @@ class Grade extends Model
         'value',
         'student_id',
     ];
+    public function student()
+    {
+        return $this->belongsTo(Student::class);
+    }
 }

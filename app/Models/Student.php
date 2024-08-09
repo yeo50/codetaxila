@@ -26,8 +26,12 @@ class Student extends Model
     {
         return $this->hasMany(Enroll::class);
     }
-    public function progres()
+    public function progress()
     {
         return $this->hasMany(Progress::class);
+    }
+    public function grades()
+    {
+        return $this->hasMany(Grade::class);
     }
 }
