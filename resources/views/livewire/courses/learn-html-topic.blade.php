@@ -61,12 +61,16 @@ new #[Layout('layouts.app')] class extends Component {
         $student_id = Auth()->user()->student->id;
 
         $progresses = Progress::where('student_id', $student_id)->where('subject', 'html')->get();
+        $toAdd = 100 / count($this->topics);
+        $lastCount = count($this->topics) - 1;
+
+        $lastValue = $toAdd * $lastCount;
 
         foreach ($progresses as $progress) {
-            if ($progress->value <= 75) {
+            if ($progress->value <= $lastValue) {
                 session([$this->topic_name => true]);
                 $this->topic_checked = true;
-                $valueAdded = $progress->value + 25;
+                $valueAdded = $progress->value + $toAdd;
                 $progress->update(['value' => $valueAdded]);
             }
         }

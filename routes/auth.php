@@ -31,6 +31,7 @@ Route::middleware('auth')->group(function () {
     Volt::route('confirm-password', 'pages.auth.confirm-password')
         ->name('password.confirm');
     Volt::route('/learn-html-topic', 'courses.learn-html-topic')->name('learnHtmlTopic');
+    Volt::route('/learn-css-topic', 'courses.learn-css-topic')->name('learnCssTopic');
     Volt::route('/enrollment', 'enrollment.enroll')->name('enrollment');
     Volt::route('/grades-insert', 'grades.grades_create')->name('gradesInsert');
 });

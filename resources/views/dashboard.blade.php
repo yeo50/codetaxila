@@ -76,14 +76,14 @@
                     @foreach (Auth()->user()->student->enroll->pluck('course')->unique() as $item)
                         <div class=" flex-1 border border-black rounded-lg">
                             @php
-                                $progress_bar = (int) Auth()->user()->student->progress->pluck('value')->implode('');
+                                $progress_bar = ceil(Auth()->user()->student->progress->sum('value') / 3);
 
                             @endphp
 
                             <div class="flex rounded-lg ">
                                 <div class="min-w-10 bg-yellow-500 h-8 rounded-tl-lg flex justify-center items-center"
-                                    style="width: {{ $progress_bar }}%">
-                                    {{ $progress_bar }} %</div>
+                                    style="width: {{ $progress_bar >= 100 ? 100 : $progress_bar }}%">
+                                    {{ $progress_bar >= 100 ? 100 : $progress_bar }} %</div>
                                 <div class="flex-1 bg-slate-400 w-full rounded-tr-lg"></div>
                             </div>
                             <div class="py-6 px-4 space-y-2">

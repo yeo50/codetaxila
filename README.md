@@ -14,3 +14,17 @@ Assignment
         - practice exercise 
        - live update when exercise correct or not 
        -show status when all exercises are finished
+on teacher side 
+     crud assignment 
+     make midddleware to prevent student from making assignment
+Courses
+     show courses and enroll to respective course
+     redirect courses 
+     add enroll courses to dashboard and progress bar to courses
+     when mark finished in courses topics make progress see visible in dashboard
+on teacher side 
+   crud courses
+Grades
+   show grade according to value given by teacher side
+on teacher side 
+   crud grade to all students 

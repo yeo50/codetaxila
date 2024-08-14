@@ -34,11 +34,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/courses/frontend', [CourseController::class, 'frontend'])->name('courses.frontend')->middleware('student');
     Route::get('/courses/backend', [CourseController::class, 'backend'])->name('courses.backend')->middleware('student');
     Route::resource('courses', CourseController::class)->middleware('teacher');
-    Route::resource('grades', GradeController::class)->middleware('teacher');
     Route::get('/grades/intro', [GradeController::class, 'intro'])->name('grades.intro')->middleware('student');
+    Route::resource('grades', GradeController::class);
     Route::resource('progresses', ProgressController::class);
 
-    Route::get('/learn-css-topic', [CourseController::class, 'learnCssTopic'])->name('learnCssTopic');
+
     Route::resource('users', UserController::class);
 });
 require __DIR__ . '/auth.php';

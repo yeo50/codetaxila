@@ -14,4 +14,7 @@
     .reverse-shadow {
         box-shadow: -10px 10px #50239c;
     }
+    .point > p {
+        @apply cursor-pointer;
+    }
 }

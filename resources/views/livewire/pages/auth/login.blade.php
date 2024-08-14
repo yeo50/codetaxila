@@ -31,29 +31,29 @@ new #[Layout('layouts.guest')] class extends Component {
 
         <div>
             @if (Route::has('register'))
-                <button @click= " link= !link " x-show="menu"
+                <button @click= " link= !link " @click.outside="link = false" x-show="menu"
                     class="bg-blue-700 text-white font-bold tracking-normal px-3 py-2 rounded-md">
                     Register</button>
-                <div x-show="link" class="w-26 flex flex-col flex-wrap absolute top-[50px] right-0 bg-[#67D2E0] z-40">
+                <div x-show="link" class="w-26 flex flex-col flex-wrap absolute top-[50px] right-3  z-40">
                     <a href="{{ route('register') }}" @click=" link=false ; menu=true"
-                        class="rounded-md px-3 py-1 text-black text-lg ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
+                        class="rounded-md font-semibold px-3 py-1 text-black text-lg ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
                         As Student
                     </a>
                     <a href="{{ route('teacher_register') }}" @click=" link=false ; menu=true"
-                        class="rounded-md px-3 py-1 text-black text-lg ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
+                        class="rounded-md font-semibold px-3 py-1 text-black text-lg ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
                         As Teacher
                     </a>
                 </div>
             @endif
         </div>
     </nav>
-    <div class="flex">
-        <div class="flex-1">
+    <div class="flex ">
+        <div class="flex-1 max-md:hidden">
 
             <img src="./images/code_testing.png" alt="code_testing" class="w-full h-[500px] object-contain">
         </div>
         <div class="flex-1">
-            <form wire:submit="login" class="w-3/5 block mx-auto h-[400px] p-4 px-6 mt-5  rounded-lg">
+            <form wire:submit="login" class="w-4/5 block mx-auto h-[400px] p-4 px-6 mt-5  rounded-lg">
                 <!-- Email Address -->
                 <h1 class="text-2xl font-semibold text-center mb-6 mt-2"> Log in to Codetaxila</h1>
                 <div>
@@ -83,7 +83,7 @@ new #[Layout('layouts.guest')] class extends Component {
                     </label>
                 </div>
 
-                <div class="flex items-center justify-end mt-4">
+                <div class="flex items-center justify-between mt-4   ">
                     @if (Route::has('password.request'))
                         <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                             href="{{ route('password.request') }}" wire:navigate>
@@ -98,4 +98,12 @@ new #[Layout('layouts.guest')] class extends Component {
             </form>
         </div>
     </div>
+
+    @include('partials.box')
+
+    @include('partials.banner')
+
+    @include('partials.success')
+    @include('partials.footer')
+
 </div>

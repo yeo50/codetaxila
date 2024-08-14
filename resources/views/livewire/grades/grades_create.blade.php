@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 new #[Layout('layouts.app')] class extends Component {
     public $student_id;
     public $subjects = ['html', 'css', 'js'];
+
     public $values = [];
     public $grade_id;
     public $grades;
@@ -35,13 +36,22 @@ new #[Layout('layouts.app')] class extends Component {
             }
         }
     }
+
     public function gradeCreate($key)
     {
+        $validated = $this->validate(
+            [
+                'values.*' => 'required|integer|max:100',
+            ],
+            ['values.*.required' => 'The Input Field is required.', 'values.*.max' => 'The number may not be greater than 100.'],
+        );
+
         $new = ['subject' => $this->subjects[$key], 'value' => $this->values[$key] ?? $this->grade_values[$key], 'student_id' => $this->student_id];
 
         if ($key < count($this->grade_id) && count($this->grade_id) != 0) {
             $id = $this->grade_id[$key];
             $grade = Grade::where('id', $id)->first();
+
             $update = ['subject' => $this->subjects[$key], 'value' => $this->values[$key] ?? $this->grade_values[$key], 'student_id' => $this->student_id];
             $grade->fill($update);
             $grade->save();
@@ -58,17 +68,27 @@ new #[Layout('layouts.app')] class extends Component {
     }
 };
 ?>
-<div>
+<div x-data="{ count: 0 }">
     <p>Insert <span class="font-semibold text-lg">{{ "$student->fname" . "$student->lname" }}</span> Grades</p>
 
     @foreach ($subjects as $key => $item)
-        <div x-data="{ open: false, form: true }">
-            <div x-show="open" class="uppercase  w-40 font-semibold flex justify-between mt-2">
-                <span>{{ $item }}</span>
-                <span>{{ $grade_values[$key] }}</span>
+        <div x-data="{ gradeUpdated: false, form: true }">
+            <div x-show="gradeUpdated" class=" mt-2">
+                @if ($errors->has('values.' . $key))
+                    @error('values.' . $key)
+                        <p class="text-red-600 ps-4">{{ $message }}</p>
+                        <button @click="form = true; gradeUpdated =false"
+                            class="ms-4 mt-2 py-2 px-2 rounded-md shadow-md text-white bg-blue-700 ">Re-enter</button>
+                    @enderror
+                @else
+                    <div class="uppercase  w-40 font-semibold flex justify-between">
+                        <span>{{ $item }}</span>
+                        <span>{{ $grade_values[$key] }}</span>
+                    </div>
+                @endif
             </div>
 
-            <form x-show='form' wire:submit="gradeCreate({{ $key }})" class=" block   mt-4 p-5">
+            <form x-show="form  " wire:submit="gradeCreate({{ $key }})" class=" block   mt-4 p-5">
                 @csrf
 
                 <div>
@@ -77,13 +97,17 @@ new #[Layout('layouts.app')] class extends Component {
                     <input type="number" required wire:model="values.{{ $key }}"
                         :value="{{ $grade_values[$key] ? $grade_values[$key] : '' }}" name="value" id="value"
                         class="mt-2">
+
                     <input type="submit" value="submit" class="py-2 px-2 rounded-md shadow-md text-white bg-blue-700 "
-                        @click="open =true; form = false; " name="submit">
+                        @click="form= false; gradeUpdated = true; count++" name="Submit">
                 </div>
 
             </form>
         </div>
     @endforeach
+    <div x-show="count === 3 ? true: false" class="mt-8">
+        <a href="{{ route('grades.index') }}" class="text-blue-500 mt-6">Return Back</a>
+    </div>
     <div x-data="{ grade_delete: false }" class="mt-4 p-4 ">
         <div class=" px-3 py-2 w-[50%] flex justify-between">
             <h1>

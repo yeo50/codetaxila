@@ -29,9 +29,10 @@ class CourseController extends Controller
     }
     public function index()
     {
+        $htmlCourses = Course::where('subject', 'html')->get();
 
-        $courses = Course::all();
-        return view('teacher.courses.course-index', ['courses' => $courses]);
+        $cssCourses = Course::where('subject', 'css')->get();
+        return view('teacher.courses.course-index', ['htmlCourses' => $htmlCourses, 'cssCourses' => $cssCourses]);
     }
 
     /**
@@ -49,8 +50,11 @@ class CourseController extends Controller
     {
         $new = $request->all();
         $course = Course::create($new);
-        $courses = Course::all();
-        return view('teacher.courses.course-index', ['courses' => $courses]);
+
+        $htmlCourses = Course::where('subject', 'html')->get();
+
+        $cssCourses = Course::where('subject', 'css')->get();
+        return view('teacher.courses.course-index', ['htmlCourses' => $htmlCourses, 'cssCourses' => $cssCourses]);
     }
 
     /**

@@ -35,7 +35,14 @@ new #[Layout('layouts.app')] class extends Component {
         $progress = ['course' => $this->course_name, 'value' => 0, 'student_id' => Auth()->user()->student->id];
 
         DB::transaction(function () use ($progress, $new) {
-            $newProgress = Progress::create($progress);
+            if ($this->course_name = 'frontend') {
+                $subjects = ['html', 'css', 'js'];
+                foreach ($subjects as $key => $value) {
+                    $progress['subject'] = $value;
+                    $newProgress = Progress::create($progress);
+                }
+            }
+
             $enroll = Enroll::create($new);
         });
         if ($this->course_name == 'frontend') {
@@ -44,11 +51,6 @@ new #[Layout('layouts.app')] class extends Component {
         if ($this->course_name == 'backend') {
             $this->redirect(route('courses.frontend'), navigate: true);
         }
-    }
-    public function enrollDestroy(Enroll $enroll)
-    {
-        $enroll->delete();
-        return redirect()->route('enrollment', ['course_name' => $this->course_name]);
     }
 };
 ?>
@@ -145,15 +147,5 @@ new #[Layout('layouts.app')] class extends Component {
             </div>
         </div>
     @endif
-    @foreach ($enrolls as $item)
-        <div class="flex justify-between mt-2">
-            <div>{{ $item->course }}</div>
-            <div>{{ $item->payment }}</div>
-            <div>
-                <form wire:submit="enrollDestroy({{ $item->id }})">
-                    <input type="submit" value="delete" class="bg-red-600 text-white py-2 px-2 ">
-                </form>
-            </div>
-        </div>
-    @endforeach
+
 </div>

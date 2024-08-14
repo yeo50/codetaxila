@@ -63,11 +63,7 @@ new class extends Component {
                 </svg><span>Grades</span>
             </a>
         </li>
-        {{-- <li class=" cursor-pointer {{ $active === 'resources' ? 'side-active' : '' }}"><a
-                href="{{ route('progresses.index') }}">progress</a></li>
-        <li class=" cursor-pointer {{ $active === 'resources' ? 'side-active' : '' }}"><a
-                href="{{ route('users.index') }}">users</a></li>
-        <li class=" cursor-pointer {{ $active === 'resources' ? 'side-active' : '' }}">Resources</li> --}}
+
     </ul>
     <button wire:click="logout" class=" text-center inline-block  mt-[100px]">
         <x-responsive-nav-link class="text-white ">
